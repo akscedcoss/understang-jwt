@@ -19,9 +19,11 @@ use Phalcon\Config\ConfigFactory;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager as EventsManager;
 
+
 // Define some absolute path constants to aid in locating resources
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
+require_once(BASE_PATH."/vendor/autoload.php");
 
 // Register an autoloader
 $loader = new Loader();
