@@ -1,0 +1,50 @@
+
+
+<?php if(isset($success)) {?>
+<div class="alert alert-<?php echo $success === true ? 'success' : 'danger'; ?>">
+    <?php echo $message; 
+   ?>
+</div>
+<?php }?>
+
+
+
+<h2>Genrate Token For User Using this  form</h2>
+<?php echo $this->tag->form(""); ?>
+
+
+
+  
+    <p>
+        <label for="name">Enter Name </label>
+        <?php echo $this->tag->textField(["name"]); ?>
+    </p>
+
+
+    <p>
+        <label for="name">Role </label>
+        <?php echo $this->tag->select(
+        [
+            'roles',
+            $roles,
+            'using'      => [
+                'role',
+                'role',
+            ],
+            'useEmpty'   => true,
+            'emptyText'  => 'Please, choose one...',
+            'emptyValue' => '@',
+        ]
+       );?>
+</p>
+
+
+
+    <p>
+        <?php echo $this->tag->submitButton("Update"); ?>
+    </p>
+
+    
+
+
+</form>
