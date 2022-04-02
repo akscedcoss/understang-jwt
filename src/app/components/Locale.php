@@ -31,7 +31,14 @@ class Locale extends Injectable
 
         $interpolator = new InterpolatorFactory();
         $factory      = new TranslateFactory($interpolator);
-        
+        if ($this->cache->has('array')) {
+            return $factory->newInstance(
+                'array',
+                [
+                    'content' => $this->cache->get('array')
+                ]
+            );
+        }
         return $factory->newInstance(
             'array',
             [

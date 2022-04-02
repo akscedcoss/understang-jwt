@@ -14,16 +14,20 @@ use Phalcon\Session\Manager;
 use Phalcon\Session\Adapter\Stream;
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Cookies;
+
 $config = new Config([]);
+
 use Phalcon\Config\ConfigFactory;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager as EventsManager;
-
+use Phalcon\Cache\CacheFactory;
+use Phalcon\Cache\AdapterFactory;
+use Phalcon\Storage\SerializerFactory;
 
 // Define some absolute path constants to aid in locating resources
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
-require_once(BASE_PATH."/vendor/autoload.php");
+require_once(BASE_PATH . "/vendor/autoload.php");
 
 // Register an autoloader
 $loader = new Loader();
@@ -36,9 +40,9 @@ $loader->registerDirs(
 );
 $loader->registerNamespaces(
     [
-        'App\Components' =>  APP_PATH .'/components',
-        'App\Listener' =>APP_PATH .'/Listener',
-        'App\Console'=>APP_PATH.'/Console'
+        'App\Components' =>  APP_PATH . '/components',
+        'App\Listener' => APP_PATH . '/Listener',
+        'App\Console' => APP_PATH . '/Console'
     ]
 );
 
@@ -85,12 +89,13 @@ $factory  = new ConfigFactory();
 $config = $factory->newInstance('php', $fileName);
 
 
-$container->set('config',
-function()
-{
-global  $config;
-return $config;
-});
+$container->set(
+    'config',
+    function () {
+        global  $config;
+        return $config;
+    }
+);
 
 
 
@@ -133,13 +138,13 @@ $container->set(
 
         return new Mysql(
             [
-                'host'     =>$this->get('config')->get('dbs')->get("host"),
+                'host'     => $this->get('config')->get('dbs')->get("host"),
                 'username' => $this->get('config')->get('dbs')->get("username"),
                 'password' => $this->get('config')->get('dbs')->get("password"),
                 'dbname'   => $this->get('config')->get('dbs')->get("dbname"),
-                ]
-            );
-        }
+            ]
+        );
+    }
 );
 
 $container->set(
@@ -149,9 +154,33 @@ $container->set(
         return $trans;
     }
 );
+
+$container->set(
+    'cache',
+    function () {
+        $options = [
+            
+            'lifetime'          => 7200,
+        ];
+
+        $serializerFactory = new SerializerFactory();
+        $adapterFactory    = new AdapterFactory(
+            $serializerFactory,
+            $options
+        );
+
+        $cacheFactory = new CacheFactory($adapterFactory);
+
+        $cache = $cacheFactory->newInstance('apcu');
+        return $cache;
+    }
+);
+
+
+
 $container->set(
     'date',
-    function(){
+    function () {
         return  date("M,d,Y h:i:s A");
     }
 );
