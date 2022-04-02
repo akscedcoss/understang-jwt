@@ -10,4 +10,5 @@ class Orders extends Model
     public $zipcode;
     public $product;
     public $quantity;	
+    public $date;
 }

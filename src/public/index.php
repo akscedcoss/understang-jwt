@@ -37,7 +37,8 @@ $loader->registerDirs(
 $loader->registerNamespaces(
     [
         'App\Components' =>  APP_PATH .'/components',
-        'App\Listener' =>APP_PATH .'/Listener'
+        'App\Listener' =>APP_PATH .'/Listener',
+        'App\Console'=>APP_PATH.'/Console'
     ]
 );
 
