@@ -1,4 +1,11 @@
+<?php
 
+if($_GET )
+{
+  print_r('<h1>'.$_GET['lan']."</h1>");
+}
+
+?>
 <?php if(isset($success)) {?>
 <div class="alert alert-<?php echo $success === true ? 'success' : 'danger'; ?>">
     <?php echo $message; 
@@ -6,6 +13,9 @@
 </div>
 <?php }?>
 <h2>Exsisting Roles Table</h2>
+<?php echo $this->locale->_('Exsisting Roles Table');?>
+
+
 <table class="table table-striped">
   <thead>
     <tr>

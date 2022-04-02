@@ -143,13 +143,11 @@ $container->set(
 );
 
 $container->set(
-    'mongo',
+    'locale',
     function () {
-        $mongo = new MongoClient();
-
-        return $mongo->selectDB('phalt');
-    },
-    true
+        $trans =  (new \App\Components\Locale())->getTranslator();
+        return $trans;
+    }
 );
 $container->set(
     'date',
